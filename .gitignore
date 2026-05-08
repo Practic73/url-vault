@@ -1,0 +1,28 @@
+# Maven
+target/
+*.jar
+*.war
+
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
+
+# Claude Code
+.claude/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.classpath
+*.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Запрос заблокирован')}"></head>
+<body>
+
+<nav th:replace="~{layout :: navbar}"></nav>
+
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center py-5">
+            <div class="display-1 mb-3">&#128737;</div>
+            <h1 class="h2 text-danger mb-2">Запрос заблокирован</h1>
+            <p class="lead text-muted mb-4">
+                Система безопасности определила введённый URL как потенциально опасный.
+            </p>
+            <p th:if="${message != null}" class="text-secondary small mb-4" th:text="${message}"></p>
+            <a th:href="@{/}" class="btn btn-primary px-4">&#8592; Назад</a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Мои ссылки')}"></head>
+<body>
+
+<nav th:replace="~{layout :: navbar}"></nav>
+
+<main class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Personal URL Vault</h1>
+        <a th:href="@{/add}" class="btn btn-primary">&#10133; Добавить ссылку</a>
+    </div>
+
+    <form th:action="@{/}" method="get" class="row g-2 mb-4">
+        <div class="col-sm-6">
+            <input type="text" name="q" class="form-control" placeholder="Поиск по названию..."
+                   th:value="${q}">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" name="tag" class="form-control" placeholder="Фильтр по тегу"
+                   th:value="${tag}">
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-outline-secondary w-100">Найти</button>
+        </div>
+    </form>
+
+    <div th:if="${#lists.isEmpty(bookmarks)}" class="text-center text-muted py-5">
+        <p class="fs-5">Ничего не сохранено. Добавьте первую ссылку.</p>
+        <a th:href="@{/add}" class="btn btn-primary">Добавить ссылку</a>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(bookmarks)}" class="row row-cols-1 row-cols-md-2 g-3">
+        <div th:each="b : ${bookmarks}" class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+                        <h5 class="card-title mb-0">
+                            <a th:href="@{/go/{id}(id=${b.id})}" class="text-decoration-none"
+                               th:text="${b.title}">Название</a>
+                        </h5>
+                        <span th:if="${b.tag != null and !b.tag.isEmpty()}"
+                              class="badge bg-secondary ms-2 text-nowrap"
+                              th:text="${b.tag}">тег</span>
+                    </div>
+                    <p class="text-muted small mb-1 url-text"
+                       th:text="${#strings.abbreviate(b.url, 80)}">url</p>
+                    <p th:if="${b.description != null and !b.description.isEmpty()}"
+                       class="card-text small mb-1" th:text="${b.description}">описание</p>
+                    <p class="text-muted small mb-0"
+                       th:text="${#temporals.format(b.createdAt.atZone(T(java.time.ZoneId).systemDefault()), 'dd.MM.yyyy HH:mm')}">дата</p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-end">
+                    <form th:action="@{/delete/{id}(id=${b.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Удалить эту закладку?')">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+
+</body>
+</html>
